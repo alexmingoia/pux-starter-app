@@ -5,6 +5,7 @@
   "main": "src/js/index.js",
   "scripts": {
     "postinstall": "pulp dep install",
+    "watch": "gulp watch",
     "start": "gulp watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
