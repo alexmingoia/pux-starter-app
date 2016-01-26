@@ -1,0 +1,19 @@
+{
+  "name": "purescript-pux-boilerplate",
+  "version": "1.0.0",
+  "homepage": "https://github.com/alexmingoia/purescript-pux-boilerplate",
+  "authors": [
+    "Alex Mingoia <talk@alexmingoia.com>"
+  ],
+  "description": "A boilerplate Pux application.",
+  "main": "src/js/index.js",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "purescript-console": "~0.1.1",
+    "purescript-pux": "git://github.com/alexmingoia/purescript-pux.git#master"
+  },
+  "devDependencies": {
+    "purescript-lists": "~0.7.9",
+    "purescript-maps": "~0.5.4"
+  }
+}
