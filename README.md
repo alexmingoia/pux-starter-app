@@ -1,7 +1,7 @@
 # purescript-pux-boilerplate
 
-Skeleton [Pux](https://github.com/alexmingoia/purescript-pux/) ~~isomorphic~~
-universal application with hot-reloading (using webpack, babel, and gulp).
+Skeleton [Pux](https://github.com/alexmingoia/purescript-pux/) isomorphic
+application with hot-reloading (using webpack, babel, and gulp).
 
 See the
 [Guide](http://www.alexmingoia.com/purescript-pux/index.html)
