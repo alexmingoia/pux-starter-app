@@ -1,64 +1,71 @@
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var webpack = require('webpack');
-var webpackStream = require('webpack-stream');
-var WebpackDevServer = require('webpack-dev-server');
+var http = require('http');
+var PuxMiddleware = require('pux-middleware');
+var express = require('express');
 var del = require('del');
 var config = require('./webpack.config');
+var replace = require('gulp-replace');
 
-var paths = {
-  purescript: 'src/purs/**/*.purs',
-  purescriptLibs: 'bower_components/*/src/**/*.purs',
-  purescriptForeigns: 'bower_components/*/src/**/*.js',
-  javascript: 'src/js/**/*.js',
-  output: 'output',
-  dist: 'dist'
-};
+var devServerMiddleware;
 
-gulp.task('clean', function (cb) {
-  return del([paths.output, paths.dist], cb);
+gulp.task('clean', function (done) {
+  return del(['dist', 'output'], done);
 });
 
-gulp.task('copy-html', function(){
-  return gulp.src('src/html/index.html')
-    .pipe(gulp.dest(paths.dist));
+gulp.task('copy-assets', ['clean'], function () {
+  gulp.src(['src/html/index.html'])
+    .pipe(replace('{{markup}}', ''))
+    .pipe(gulp.dest('dist'));
 });
 
-gulp.task('copy-assets', ['copy-html']);
-
-gulp.task('build', ['copy-assets'], function () {
-  return gulp.src('src/js/index.js')
-    .pipe(webpackStream(config))
-    .pipe(gulp.dest(paths.dist));
+gulp.task('build', ['copy-assets'], function (done) {
+  webpack(config, outputWebpackStats(done));
 });
 
-gulp.task('watch', ['copy-assets'], function (done) {
-  (new WebpackDevServer(webpack(config), {
-    hot: true,
-    // It suppress error shown in console, so it has to be set to false.
-    quiet: false,
-    // It suppress everything except error, so it has to be set to false as well
-    // to see success build.
-    noInfo: false,
-    stats: {
-      // Config for minimal console.log mess.
-      assets: false,
-      colors: true,
-      version: false,
-      hash: false,
-      timings: false,
-      chunks: false,
-      chunkModules: false
-    },
-    historyApiFallback: {
-      index: '/dist/index.html'
-    }
-  })).listen(3000, 'localhost', function (err, result) {
-    if (err) {
-      console.log(err);
-    }
-    console.log('Listening at localhost:3000');
-    console.log('Building initial webpack bundle...');
+gulp.task('refresh-bundle', function (done) {
+  devServerMiddleware.run(outputWebpackStats(done));
+});
+
+gulp.task('serve', ['build'], function (done) {
+  makeServer().listen(3000, function () {
+    gutil.log('Server listening on localhost:3000');
+    done();
   });
 });
 
+gulp.task('watch', ['clean'], function (done) {
+  gutil.log('[webpack]', 'Building...');
+  var server = makeServer();
+  devServerMiddleware.run(outputWebpackStats(function () {
+    server.listen(3000, function () {
+      gutil.log('Server listening on localhost:3000');
+      done();
+    });
+  }));
+  gulp.watch('src/purs/**/*.purs', ['refresh-bundle']);
+});
+
 gulp.task('default', ['watch']);
+
+function outputWebpackStats(done) {
+  return function (err, stats) {
+    if (err) throw new gutil.PluginError('webpack', err);
+    gutil.log('[webpack]', 'Build finished.\n' + stats.toString({
+      colors: true,
+      chunks: false
+    }));
+    done();
+  };
+};
+
+function makeServer() {
+  var app = express();
+  var server = http.createServer(app);
+  devServerMiddleware = PuxMiddleware(config, server, {
+    html: 'src/html/index.html'
+  });
+  app.use(devServerMiddleware);
+  return server;
+};

@@ -1,12 +1,14 @@
 {
   "name": "purescript-pux-boilerplate",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A boilerplate Pux application.",
   "main": "src/js/index.js",
   "scripts": {
     "postinstall": "pulp dep install",
+    "clean": "gulp clean",
     "build": "gulp build",
     "watch": "gulp watch",
+    "serve": "gulp serve",
     "start": "gulp watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,15 +28,18 @@
     "babel-preset-react": "^6.3.13",
     "bower": "^1.7.2",
     "del": "^2.2.0",
+    "expose-loader": "^0.7.1",
+    "express": "^4.13.4",
     "gulp": "^3.9.0",
+    "gulp-replace": "^0.5.4",
+    "gulp-util": "^3.0.7",
     "pulp": "^7.0.0",
     "purescript": "^0.7.6",
     "purescript-webpack-plugin": "^0.1.1",
     "purs-loader": "^0.5.0",
+    "pux-middleware": "^0.1.0",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
-    "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.1",
-    "webpack-stream": "^3.1.0"
+    "webpack": "^1.12.9"
   }
 }

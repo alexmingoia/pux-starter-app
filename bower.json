@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "purescript-console": "~0.1.1",
-    "purescript-pux": "git://github.com/alexmingoia/purescript-pux.git#master"
+    "purescript-pux": "git://github.com/alexmingoia/purescript-pux.git#v0.1.0"
   },
   "devDependencies": {
     "purescript-lists": "~0.7.9",

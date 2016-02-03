@@ -2,41 +2,54 @@ var path = require('path');
 var webpack = require('webpack');
 var PurescriptWebpackPlugin = require('purescript-webpack-plugin');
 
+var plugins = [
+  new PurescriptWebpackPlugin({
+    src: ['bower_components/purescript-*/src/**/*.purs', 'src/**/*.purs'],
+    ffi: ['bower_components/purescript-*/src/**/*.js', 'src/**/*FFI.js']
+  }),
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+    }
+  })
+];
+
+if (process.env.NODE_ENV === 'production') {
+  plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
+}
+
+loaders = [
+  {
+    test: /\.purs$/,
+    loader: 'purs',
+    exclude: /node_modules/
+  },
+  {
+    test: /\.js$/,
+    loader: 'babel',
+    query: {
+      presets: ['react', 'es2015']
+    },
+    exclude: /node_modules/
+  }
+];
+
 module.exports = {
-  entry: [
-    'webpack-dev-server/client?http://0.0.0.0:3000',
-    'webpack/hot/only-dev-server',
-    './src/js/index.js',
-  ],
+  entry: './src/js/index.js',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'js/app.js'
+    filename: 'js/bundle.js',
+    libraryTarget: 'umd'
   },
   module: {
-    loaders: [
+    loaders: loaders.concat([
       {
-        test: /\.purs$/,
-        loader: 'purs',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel',
-        query: {
-          presets: ['react', 'es2015']
-        },
-        exclude: /node_modules/
+        test: require.resolve('react'),
+        loader: 'expose?React'
       }
-    ],
+    ]),
   },
-  plugins: [
-    new webpack.ProvidePlugin({ React: 'react' }),
-    new webpack.HotModuleReplacementPlugin(),
-    new PurescriptWebpackPlugin({
-      src: ['bower_components/purescript-*/src/**/*.purs', 'src/**/*.purs'],
-      ffi: ['bower_components/purescript-*/src/**/*.js', 'src/**/*FFI.js']
-    })
-  ],
+  plugins: plugins,
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
   },
