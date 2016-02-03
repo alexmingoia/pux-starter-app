@@ -1,8 +1,9 @@
 {
   "name": "purescript-pux-boilerplate",
   "version": "2.0.0",
-  "description": "A boilerplate Pux application.",
+  "description": "Skeleton Pux isomorphic application with hot-reloading (using webpack, babel, and gulp).",
   "main": "src/js/index.js",
+  "keywords": ["pux", "purescript-pux", "boilerplate"],
   "scripts": {
     "postinstall": "pulp dep install",
     "clean": "gulp clean",
