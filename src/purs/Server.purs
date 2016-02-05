@@ -8,11 +8,8 @@ import State (update)
 import Routes (match)
 import View.Layout (layout)
 
-main url state = do
-  let routeSignal = constant url ~> match
-
-  app
-    { state: state
-    , update: update
-    , view: layout
-    , inputs: [routeSignal] }
+main url state =  app
+  { state: state { route = match url }
+  , update: update
+  , view: layout
+  , inputs: [] }
