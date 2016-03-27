@@ -1,10 +1,11 @@
-module Routes where
+module App.Routes where
 
-import Data.Functor
-import Data.Maybe
-import Prelude
+import Data.Functor ((<$))
+import Data.Maybe (fromMaybe)
+import Prelude (($))
 import Pux.Router (end, router)
-import State
+
+data Route = Home | NotFound
 
 match :: String -> Route
 match url = fromMaybe NotFound $ router url $

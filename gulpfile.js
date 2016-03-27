@@ -1,22 +1,24 @@
 var gulp = require('gulp');
+var fs = require('fs');
 var gutil = require('gulp-util');
 var webpack = require('webpack');
 var http = require('http');
-var PuxMiddleware = require('pux-middleware');
+var webpackDevMiddleware = require('webpack-dev-middleware');
+var webpackHotMiddleware = require('webpack-hot-middleware');
 var express = require('express');
 var del = require('del');
 var config = require('./webpack.config');
+var path = require('path');
 var replace = require('gulp-replace');
 
-var devServerMiddleware;
+var port = process.env.PUX_PORT || 3000;
 
 gulp.task('clean', function (done) {
   return del(['dist', 'output'], done);
 });
 
 gulp.task('copy-assets', ['clean'], function () {
-  gulp.src(['src/html/index.html'])
-    .pipe(replace('{{markup}}', ''))
+  gulp.src(['src/images'])
     .pipe(gulp.dest('dist'));
 });
 
@@ -24,27 +26,55 @@ gulp.task('build', ['copy-assets'], function (done) {
   webpack(config, outputWebpackStats(done));
 });
 
-gulp.task('refresh-bundle', function (done) {
-  devServerMiddleware.run(outputWebpackStats(done));
-});
-
 gulp.task('serve', ['build'], function (done) {
-  makeServer().listen(3000, function () {
-    gutil.log('Server listening on localhost:3000');
-    done();
-  });
+  var app = express();
+  var server = http.createServer(app);
+  var html = fs.readFileSync('src/html/index.html', 'utf8');
+
+  webpack(config, outputWebpackStats(function () {
+    var markup = require(path.join(config.output.path, config.output.filename))
+
+    app
+      .use(express.static('dist'))
+      .use(function (req, res, next) {
+        res.send(html.replace('{{markup}}', markup(req.url)));
+      });
+
+    server.listen(port, function () {
+      gutil.log('Server listening on localhost:' + port);
+      done();
+    });
+  }));
 });
 
 gulp.task('watch', ['clean'], function (done) {
   gutil.log('[webpack]', 'Building...');
-  var server = makeServer();
-  devServerMiddleware.run(outputWebpackStats(function () {
+
+  config.entry.unshift('webpack-hot-middleware/client');
+
+  var app = express();
+  var server = http.createServer(app);
+  var compiler = webpack(config, function (err, stats) {
     server.listen(3000, function () {
-      gutil.log('Server listening on localhost:3000');
-      done();
+      gutil.log('Server listening on localhost:' + port);
     });
-  }));
-  gulp.watch('src/purs/**/*.purs', ['refresh-bundle']);
+  });
+  var html = fs.readFileSync('src/html/index.html', 'utf8');
+
+  app
+    .use(express.static('dist'))
+    .use(webpackDevMiddleware(compiler, {
+      noInfo: true,
+      quiet: true
+    }))
+    .use(webpackHotMiddleware(compiler, {
+      noInfo: true,
+      quiet: true,
+      stats: { colors: true, chunks: false }
+    }))
+    .use(function (req, res, next) {
+      res.send(html.replace('{{markup}}', ''));
+    });
 });
 
 gulp.task('default', ['watch']);
@@ -56,16 +86,6 @@ function outputWebpackStats(done) {
       colors: true,
       chunks: false
     }));
-    done();
+    done && done();
   };
-};
-
-function makeServer() {
-  var app = express();
-  var server = http.createServer(app);
-  devServerMiddleware = PuxMiddleware(config, server, {
-    html: 'src/html/index.html'
-  });
-  app.use(devServerMiddleware);
-  return server;
 };

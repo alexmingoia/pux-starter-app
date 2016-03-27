@@ -1,22 +1,21 @@
-# purescript-pux-boilerplate
+# pux-starter-app
 
-Skeleton [Pux](https://github.com/alexmingoia/purescript-pux/) isomorphic
-application with hot-reloading (using webpack, babel, and gulp).
+Starter [Pux](https://github.com/alexmingoia/purescript-pux/) application
+using webpack with hot-reloading.
 
-See the
-[Guide](http://www.alexmingoia.com/purescript-pux/index.html)
-for help learning Pux.
+See the [Guide](https://alexmingoia.github.io/purescript-pux) for help learning
+Pux.
 
 ## Installation
 
 ```sh
-git clone git://github.com/alexmingoia/purescript-pux-boilerplate.git example
+git clone git://github.com/alexmingoia/pux-starter-app.git example
 cd example
 npm install
 npm start
 ```
 
-Visit `http://localhost:3000` in your browser, edit `src/purs/View/Layout.purs`
+Visit `http://localhost:3000` in your browser, edit `src/purs/Layout.purs`
 and watch the magic!
 
 ## Available tasks
