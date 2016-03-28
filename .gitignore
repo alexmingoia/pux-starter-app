@@ -3,5 +3,5 @@ bower_components
 **DS_Store
 output
 dist
-.pulp-cache
 .psci_modules
+npm-debug.log

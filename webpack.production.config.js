@@ -5,42 +5,35 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: [ path.join(__dirname, 'src/js/index.js') ],
-  debug: true,
-  devtool: 'cheap-module-eval-source-map',
+  debug: false,
   output: {
     path: path.join(__dirname, '/dist/'),
-    filename: '[name].js',
+    filename: '[name]-[hash].min.js',
     publicPath: '/'
   },
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'source-map-loader', exclude: /node_modules|bower_components/ },
-      { test: /\.purs$/, loader: 'purs-loader', exclude: /node_modules/ }
-    ],
+      { test: /\.purs$/, loader: 'purs-loader' }
+    ]
   },
   plugins: [
     new PurescriptWebpackPlugin({
       src: ['bower_components/purescript-*/src/**/*.purs', 'src/**/*.purs'],
       ffi: ['bower_components/purescript-*/src/**/*.js'],
-      bundle: false,
-      psc: 'psa',
-      pscArgs: {
-        sourceMaps: true
-      }
+      bundle: true,
+      psc: 'psa'
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env': {
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      }
     }),
     new webpack.optimize.OccurenceOrderPlugin(true),
+    new webpack.optimize.UglifyJsPlugin({ minimize: true }),
     new HtmlWebpackPlugin({
       template: 'src/html/index.html',
       inject: 'body',
       filename: 'index.html'
-    }),
-    new webpack.SourceMapDevToolPlugin({
-      filename: '[file].map',
-      moduleFilenameTemplate: '[absolute-resource-path]',
-      fallbackModuleFilenameTemplate: '[absolute-resource-path]'
     }),
     new webpack.NoErrorsPlugin()
   ],
@@ -53,14 +46,5 @@ module.exports = {
       'bower_components'
     ],
     extensions: ['', '.js', '.purs']
-  },
-  devServer: {
-    port: 3000,
-    host: 'localhost',
-    historyApiFallback: true,
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 1000
-    }
   }
 };

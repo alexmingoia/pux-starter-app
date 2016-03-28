@@ -26,7 +26,7 @@ view :: State -> Html Action
 view state =
   div # do
     h1 # text "Pux Starter App"
-    p # text "Change me in src/purs/Layout.purs and watch me hot-reload."
+    p # text "Change me in src/purs/Layout.purs and watch me 'vanilla' hot-reload."
     case state.route of
       Home -> forwardTo Child $ Counter.view state.count
       NotFound -> App.NotFound.view state

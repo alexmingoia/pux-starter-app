@@ -10,12 +10,13 @@
     "starter-app"
   ],
   "scripts": {
-    "postinstall": "pulp dep install",
-    "clean": "gulp clean",
-    "build": "gulp build",
-    "watch": "gulp watch",
-    "serve": "gulp serve",
-    "start": "gulp watch",
+    "postinstall": "./node_modules/.bin/bower cache clean && ./node_modules/.bin/bower install",
+    "clean": "rimraf dist && rimraf output",
+    "build": "npm run clean && set NODE_ENV=production && ./node_modules/.bin/webpack --config ./webpack.production.config.js --progress --profile --colors",
+    "serve": "./node_modules/.bin/webpack-dev-server --hot --config webpack.config.js --inline --progress --profile --colors --display-error-details --display-cached --content-base src/",
+    "serve:watch": "npm run serve --  --watch",
+    "serve:prod": "http-server dist --cors -p 3000",
+    "start": "npm run serve:watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,20 +28,21 @@
   "bugs": {
     "url": "https://github.com/alexmingoia/pux-starter-app/issues"
   },
+  "dependencies": {
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "purescript": "^0.8.3"
+  },
   "devDependencies": {
-    "bower": "^1.7.2",
-    "del": "^2.2.0",
-    "expose-loader": "^0.7.1",
-    "express": "^4.13.4",
-    "gulp": "^3.9.0",
-    "gulp-replace": "^0.5.4",
-    "gulp-util": "^3.0.7",
-    "pulp": "^7.0.0",
-    "purescript": "^0.8.0",
+    "bower": "^1.7.7",
+    "html-webpack-plugin": "^2.14.0",
+    "http-server": "^0.9.0",
+    "purescript-psa": "^0.3.5",
     "purescript-webpack-plugin": "^0.2.0",
     "purs-loader": "^0.6.0",
-    "react": "^0.14.6",
-    "react-dom": "^0.14.6",
-    "webpack": "^1.12.9"
+    "rimraf": "^2.5.2",
+    "source-map-loader": "^0.1.5",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   }
 }
