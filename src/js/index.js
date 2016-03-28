@@ -1,20 +1,12 @@
-var Main = require('../purs/Main.purs');
+var main = require('../purs/Main.purs').main;
 var initialState = require('../purs/Layout.purs').init;
 
-// The same webpack bundle is used for both client and server. This file serves
-// as the webpack entry-point and uses different rendering methods for browser
-// and node environments.
-if (typeof window === 'undefined') {
-  module.exports = function (url) {
-    return Main.server(url)(initialState)();
-  };
+if(module.hot) {
+	var app = main(window.puxLastState || initialState)();
+	app.state.subscribe(function (state) {
+	 window.puxLastState = state;
+	});
+	module.hot.accept();
 } else {
-  var app = Main.client(window.puxLastState || initialState)();
-  app.state.subscribe(function (state) {
-    window.puxLastState = state;
-  });
-
-  if (module.hot) {
-    module.hot.accept();
-  }
+	main(initialState)();
 }

@@ -18,19 +18,18 @@ npm start
 Visit `http://localhost:3000` in your browser, edit `src/purs/Layout.purs`
 and watch the magic!
 
-## Available tasks
+## Available scripts
 
 ### watch
 
-`npm run watch` will start a development server, which hot-reloads your
+`npm start` will start a development server, which hot-reloads your
 application when sources changes.
 
 ### serve
 
-Serves your application without watching for changes or hot-reloading. For
-production, use `NODE_ENV=production npm run serve`.
+`npm run serve` serves your application without watching for changes or hot-reloading. For
+production run `npm run serve:prod`.
 
 ### build
 
-`npm run build` bundles and your application. For production, use
-`NODE_ENV=production npm run build` to minify and exclude React dev tools.
+`npm run build` bundles and minifies your application to run in production mode.
