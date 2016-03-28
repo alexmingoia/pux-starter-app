@@ -8,6 +8,6 @@
   "main": "src/js/index.js",
   "license": "Apache-2.0",
   "dependencies": {
-    "purescript-pux": "git://github.com/alexmingoia/purescript-pux.git#v1.0.0"
+    "purescript-pux": "^2.0.0"
   }
 }
