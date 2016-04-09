@@ -1,6 +1,6 @@
 {
   "name": "purescript-starter-app",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Starter Pux application using webpack with hot-reloading.",
   "main": "src/js/index.js",
   "keywords": [
@@ -29,13 +29,13 @@
     "url": "https://github.com/alexmingoia/pux-starter-app/issues"
   },
   "dependencies": {
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7",
-    "purescript": "^0.8.3"
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0",
+    "purescript": "^0.8.4"
   },
   "devDependencies": {
-    "bower": "^1.7.7",
-    "html-webpack-plugin": "^2.14.0",
+    "bower": "^1.7.9",
+    "html-webpack-plugin": "^2.15.0",
     "http-server": "^0.9.0",
     "purescript-psa": "^0.3.5",
     "purescript-webpack-plugin": "^0.2.0",

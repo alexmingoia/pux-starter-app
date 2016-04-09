@@ -2,8 +2,8 @@ module App.Layout where
 
 import App.Counter as Counter
 import App.Routes (Route(Home, NotFound))
-import Prelude (($))
-import Pux.Html (Html, (#), bind, forwardTo, div, h1, p, text)
+import Prelude (($), map)
+import Pux.Html (Html, div, h1, p, text)
 
 data Action
   = Child (Counter.Action)
@@ -24,9 +24,11 @@ update (Child action) state = state { count = Counter.update action state.count 
 
 view :: State -> Html Action
 view state =
-  div # do
-    h1 # text "Pux Starter App"
-    p # text "Change me in src/purs/Layout.purs and watch me 'vanilla' hot-reload."
-    case state.route of
-      Home -> forwardTo Child $ Counter.view state.count
-      NotFound -> App.NotFound.view state
+  div
+    []
+    [ h1 [] [ text "Pux Starter App" ]
+    , p [] [ text "Change src/purs/Layout.purs and watch me hot-reload." ]
+    , case state.route of
+        Home -> map Child $ Counter.view state.count
+        NotFound -> App.NotFound.view state
+    ]

@@ -3,19 +3,17 @@ module Main where
 import App.Routes (match)
 import App.Layout (Action(PageView), State, view, update)
 import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Exception (EXCEPTION)
 import Debug.Trace (traceAny)
 import DOM (DOM)
 import Prelude (bind, return)
-import Pux (App, fromSimple, start, renderToDOM)
+import Pux (App, CoreEffects, fromSimple, start, renderToDOM)
 import Pux.Router (sampleUrl)
 import Signal ((~>))
-import Signal.Channel (CHANNEL)
 
-type AppEffects eff = (err :: EXCEPTION, channel :: CHANNEL | eff)
+type AppEffects = (dom :: DOM)
 
 -- | Entry point for the browser.
-main :: State -> Eff (AppEffects (dom :: DOM)) (App State Action)
+main :: State -> Eff (CoreEffects AppEffects) (App State Action)
 main state = do
   -- | Create a signal of URL changes.
   urlSignal <- sampleUrl
