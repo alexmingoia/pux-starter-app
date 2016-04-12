@@ -12,7 +12,7 @@ init :: State
 init = 0
 
 update :: Action -> State -> State
-update Increment state = state + 1
+update Increment state = state +
 update Decrement state = state - 1
 
 view :: State -> Html Action
