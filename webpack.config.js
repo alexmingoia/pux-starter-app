@@ -3,12 +3,17 @@ var webpack = require('webpack');
 var PurescriptWebpackPlugin = require('purescript-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-  entry: [ path.join(__dirname, 'src/js/index.js') ],
+var port = process.env.PORT || 5000;
+
+var config = {
+  entry: [
+    'webpack-hot-middleware/client?reload=true',
+    path.join(__dirname, 'src/js/index.js'),
+  ],
   debug: true,
   devtool: 'cheap-module-eval-source-map',
   output: {
-    path: path.join(__dirname, '/dist/'),
+    path: path.resolve('./dist'),
     filename: '[name].js',
     publicPath: '/'
   },
@@ -19,9 +24,20 @@ module.exports = {
     ],
   },
   plugins: [
+    {
+      apply: function (compiler) {
+        compiler.plugin("should-emit", function(compilation) {
+          if (compilation.errors.length > 1)
+            compilation.errors = compilation.errors.filter(function (error) {
+              var message = error.message || error
+              return !~message.indexOf('PureScript compilation has failed.');
+            });
+        });
+      }
+    },
     new PurescriptWebpackPlugin({
       src: ['bower_components/purescript-*/src/**/*.purs', 'src/**/*.purs'],
-      ffi: ['bower_components/purescript-*/src/**/*.js'],
+      ffi: ['bower_components/purescript-*/src/**/*.js', 'src/purs/*.js'],
       bundle: false,
       psc: 'psa',
       pscArgs: {
@@ -42,25 +58,53 @@ module.exports = {
       moduleFilenameTemplate: '[absolute-resource-path]',
       fallbackModuleFilenameTemplate: '[absolute-resource-path]'
     }),
-    new webpack.NoErrorsPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
   ],
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
   },
   resolve: {
+    root: './node_modules',
     modulesDirectories: [
       'node_modules',
       'bower_components'
     ],
     extensions: ['', '.js', '.purs']
   },
-  devServer: {
-    port: 3000,
-    host: 'localhost',
-    historyApiFallback: true,
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 1000
-    }
-  }
 };
+
+// If this file is directly run with node, start the development server
+// instead of exporting the webpack config.
+if (require.main === module) {
+  var compiler = webpack(config);
+  var app = require('express')();
+
+  // Use webpack-dev-middleware and webpack-hot-middleware instead of
+  // webpack-dev-server, because webpack-hot-middleware provides more reliable
+  // HMR behavior, and an in-browser overlay that displays build errors
+  app
+    .use(require("webpack-dev-middleware")(compiler, {
+      publicPath: config.output.publicPath,
+      watchOptions: {
+        poll: false,
+      },
+      stats: {
+        hash: false,
+        timings: false,
+        version: false,
+        assets: false,
+        errors: true,
+        colors: false,
+        chunks: false,
+        children: false,
+        cached: false,
+        modules: false,
+        chunkModules: false,
+      },
+    }))
+    .use(require("webpack-hot-middleware")(compiler))
+    .listen(port);
+} else {
+  module.exports = config;
+}
