@@ -4,7 +4,7 @@ var PurescriptWebpackPlugin = require('purescript-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: [ path.join(__dirname, 'src/js/index.js') ],
+  entry: [ path.join(__dirname, 'support/index.js') ],
   debug: false,
   output: {
     path: path.join(__dirname, '/dist/'),
@@ -20,7 +20,7 @@ module.exports = {
   plugins: [
     new PurescriptWebpackPlugin({
       src: ['bower_components/purescript-*/src/**/*.purs', 'src/**/*.purs'],
-      ffi: ['bower_components/purescript-*/src/**/*.js'],
+      ffi: ['bower_components/purescript-*/src/**/*.js',   'src/**/*.js'],
       bundle: true,
       psc: 'psa'
     }),
@@ -32,7 +32,7 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.UglifyJsPlugin({ minimize: true }),
     new HtmlWebpackPlugin({
-      template: 'src/html/index.html',
+      template: 'html/index.html',
       inject: 'body',
       filename: 'index.html'
     }),

@@ -27,7 +27,7 @@ view state =
   div
     []
     [ h1 [] [ text "Pux Starter App" ]
-    , p [] [ text "Change src/purs/Layout.purs and watch me hot-reload." ]
+    , p [] [ text "Change src/Layout.purs and watch me hot-reload." ]
     , case state.route of
         Home -> map Child $ Counter.view state.count
         NotFound -> App.NotFound.view state

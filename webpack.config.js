@@ -8,7 +8,7 @@ var port = process.env.PORT || 3000;
 var config = {
   entry: [
     'webpack-hot-middleware/client?reload=true',
-    path.join(__dirname, 'src/js/index.js'),
+    path.join(__dirname, 'support/index.js'),
   ],
   debug: true,
   devtool: 'cheap-module-eval-source-map',
@@ -37,7 +37,7 @@ var config = {
     },
     new PurescriptWebpackPlugin({
       src: ['bower_components/purescript-*/src/**/*.purs', 'src/**/*.purs'],
-      ffi: ['bower_components/purescript-*/src/**/*.js', 'src/purs/*.js'],
+      ffi: ['bower_components/purescript-*/src/**/*.js',   'src/**/*.js'],
       bundle: false,
       psc: 'psa',
       pscArgs: {
@@ -49,7 +49,7 @@ var config = {
     }),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new HtmlWebpackPlugin({
-      template: 'src/html/index.html',
+      template: 'html/index.html',
       inject: 'body',
       filename: 'index.html'
     }),
