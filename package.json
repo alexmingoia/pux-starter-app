@@ -1,6 +1,6 @@
 {
   "name": "purescript-starter-app",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Starter Pux application using webpack with hot-reloading.",
   "main": "src/js/index.js",
   "keywords": [
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "bower": "^1.7.9",
+    "express": "^4.13.4",
     "html-webpack-plugin": "^2.15.0",
     "http-server": "^0.9.0",
     "purescript-psa": "^0.3.5",
@@ -42,7 +43,8 @@
     "rimraf": "^2.5.2",
     "source-map-loader": "^0.1.5",
     "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-hot-middleware": "^2.10.0",
     "webpack-strip": "^0.1.0"
   }
 }

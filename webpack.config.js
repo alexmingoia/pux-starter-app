@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var PurescriptWebpackPlugin = require('purescript-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 3000;
 
 var config = {
   entry: [
