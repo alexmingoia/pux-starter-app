@@ -31,5 +31,5 @@ main state = do
 
   renderToDOM "#app" app.html
 
-  -- | Used by hot-reloading code in src/js/index.js
+  -- | Used by hot-reloading code in support/index.js
   return app
