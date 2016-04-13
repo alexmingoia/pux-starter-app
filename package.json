@@ -2,7 +2,7 @@
   "name": "purescript-starter-app",
   "version": "5.0.0",
   "description": "Starter Pux application using webpack with hot-reloading.",
-  "main": "src/js/index.js",
+  "main": "support/index.js",
   "keywords": [
     "pux",
     "purescript-pux",
