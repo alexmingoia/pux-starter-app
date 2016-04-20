@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var PurescriptWebpackPlugin = require('purescript-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var port = process.env.PORT || 3000;
 
@@ -48,16 +49,19 @@ var config = {
       'process.env.NODE_ENV': JSON.stringify('development')
     }),
     new webpack.optimize.OccurenceOrderPlugin(true),
-    new HtmlWebpackPlugin({
-      template: 'html/index.html',
-      inject: 'body',
-      filename: 'index.html'
-    }),
     new webpack.SourceMapDevToolPlugin({
       filename: '[file].map',
       moduleFilenameTemplate: '[absolute-resource-path]',
       fallbackModuleFilenameTemplate: '[absolute-resource-path]'
     }),
+    new HtmlWebpackPlugin({
+      template: 'support/index.html',
+      inject: 'body',
+      filename: 'index.html'
+    }),
+    new CopyWebpackPlugin([
+      { from: 'static' }
+    ]),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
   ],
@@ -78,7 +82,8 @@ var config = {
 // instead of exporting the webpack config.
 if (require.main === module) {
   var compiler = webpack(config);
-  var app = require('express')();
+  var express = require('express');
+  var app = express();
 
   // Use webpack-dev-middleware and webpack-hot-middleware instead of
   // webpack-dev-server, because webpack-hot-middleware provides more reliable

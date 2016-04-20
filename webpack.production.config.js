@@ -7,7 +7,7 @@ module.exports = {
   entry: [ path.join(__dirname, 'support/index.js') ],
   debug: false,
   output: {
-    path: path.join(__dirname, '/dist/'),
+    path: path.resolve('./dist'),
     filename: '[name]-[hash].min.js',
     publicPath: '/'
   },
@@ -32,11 +32,13 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.UglifyJsPlugin({ minimize: true }),
     new HtmlWebpackPlugin({
-      template: 'html/index.html',
+      template: 'support/index.html',
       inject: 'body',
       filename: 'index.html'
     }),
-    new webpack.NoErrorsPlugin()
+    new CopyWebpackPlugin([
+      { from: 'static' }
+    ]),
   ],
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
