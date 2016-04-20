@@ -38,7 +38,7 @@ var config = {
     },
     new PurescriptWebpackPlugin({
       src: ['bower_components/purescript-*/src/**/*.purs', 'src/**/*.purs'],
-      ffi: ['bower_components/purescript-*/src/**/*.js',   'src/**/*.js'],
+      ffi: ['bower_components/purescript-*/src/**/*.js', 'src/**/*.js'],
       bundle: false,
       psc: 'psa',
       pscArgs: {
@@ -46,6 +46,7 @@ var config = {
       }
     }),
     new webpack.DefinePlugin({
+      'process.env.WEBPACK_ENV': '"dev"',
       'process.env.NODE_ENV': JSON.stringify('development')
     }),
     new webpack.optimize.OccurenceOrderPlugin(true),
@@ -91,9 +92,6 @@ if (require.main === module) {
   app
     .use(require("webpack-dev-middleware")(compiler, {
       publicPath: config.output.publicPath,
-      watchOptions: {
-        poll: false,
-      },
       stats: {
         hash: false,
         timings: false,

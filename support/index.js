@@ -1,12 +1,13 @@
-var main = require('../src/Main.purs').main;
+var Main = require('../src/Main.purs');
 var initialState = require('../src/Layout.purs').init;
+var debug = process.env.WEBPACK_ENV === 'dev'
 
-if(module.hot) {
-	var app = main(window.puxLastState || initialState)();
+if (module.hot) {
+	var app = Main[debug ? 'debug' : 'main'](window.puxLastState || initialState)();
 	app.state.subscribe(function (state) {
 	 window.puxLastState = state;
 	});
 	module.hot.accept();
 } else {
-	main(initialState)();
+	Main[debug ? 'debug' : 'main'](initialState)();
 }

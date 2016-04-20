@@ -25,9 +25,8 @@ module.exports = {
       psc: 'psa'
     }),
     new webpack.DefinePlugin({
-      'process.env': {
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-      }
+      'process.env.WEBPACK_ENV': '"prod"',
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.UglifyJsPlugin({ minimize: true }),
