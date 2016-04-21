@@ -1,10 +1,13 @@
 # pux-starter-app
 
 Starter [Pux](https://github.com/alexmingoia/purescript-pux/) application
-using webpack with hot-reloading.
+using webpack with hot-reloading and
+[pux-devtool](https://github.com/alexmingoia/pux-devtool) integration.
 
 See the [Guide](https://alexmingoia.github.io/purescript-pux) for help learning
 Pux.
+
+![Pux starter app animation](support/pux-starter-app.gif)
 
 ## Installation
 
