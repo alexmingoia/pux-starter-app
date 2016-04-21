@@ -8,7 +8,7 @@
   "main": "support/index.js",
   "license": "Apache-2.0",
   "dependencies": {
-    "purescript-pux": "^3.0.0",
-    "purescript-pux-devtool": "^1.0.0"
+    "purescript-pux": "^4.0.0",
+    "purescript-pux-devtool": "^2.0.0"
   }
 }
