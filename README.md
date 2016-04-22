@@ -2,7 +2,8 @@
 
 Starter [Pux](https://github.com/alexmingoia/purescript-pux/) application
 using webpack with hot-reloading and
-[pux-devtool](https://github.com/alexmingoia/pux-devtool) integration.
+time-travel debug using
+[pux-devtool](https://github.com/alexmingoia/pux-devtool).
 
 See the [Guide](https://alexmingoia.github.io/purescript-pux) for help learning
 Pux.
