@@ -23,7 +23,7 @@
     "url": "git://github.com/alexmingoia/pux-starter-app.git"
   },
   "author": "Alexander C. Mingoia",
-  "license": "Apache-2.0",
+  "license": "BSD3",
   "bugs": {
     "url": "https://github.com/alexmingoia/pux-starter-app/issues"
   },
