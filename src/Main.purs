@@ -14,10 +14,7 @@ import Signal.Channel (CHANNEL)
 type AppEffects = (dom :: DOM)
 
 -- | App configuration
-config :: forall eff.
-          State ->
-          Eff (CoreEffects AppEffects)
-            (Config State Action (channel :: CHANNEL | eff))
+config :: forall eff. State -> Eff (dom :: DOM | eff) (Config State Action AppEffects)
 config state = do
   -- | Create a signal of URL changes.
   urlSignal <- sampleUrl
