@@ -90,6 +90,7 @@ if (require.main === module) {
   // webpack-dev-server, because webpack-hot-middleware provides more reliable
   // HMR behavior, and an in-browser overlay that displays build errors
   app
+    .use(require('connect-history-api-fallback')())
     .use(require("webpack-dev-middleware")(compiler, {
       publicPath: config.output.publicPath,
       stats: {
