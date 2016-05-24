@@ -9,7 +9,6 @@ import Prelude (bind, return)
 import Pux (App, Config, CoreEffects, fromSimple, renderToDOM)
 import Pux.Router (sampleUrl)
 import Signal ((~>))
-import Signal.Channel (CHANNEL)
 
 type AppEffects = (dom :: DOM)
 

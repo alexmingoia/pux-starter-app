@@ -10,12 +10,12 @@
     "starter-app"
   ],
   "scripts": {
-    "postinstall": "./node_modules/.bin/bower cache clean && ./node_modules/.bin/bower install",
-    "clean": "rimraf dist && rimraf output",
-    "build": "npm run clean && set NODE_ENV=production && ./node_modules/.bin/webpack --config ./webpack.production.config.js --progress --profile --colors",
-    "serve:watch": "node ./webpack.config.js",
-    "serve:prod": "http-server dist --cors -p 3000",
-    "start": "npm run serve:watch",
+    "postinstall": "bower cache clean && bower install",
+    "clean": "rimraf static/dist && rimraf dist && rimraf output",
+    "build": "webpack --config ./webpack.production.config.js --progress --profile --colors",
+    "watch": "node ./webpack.config.js",
+    "serve": "http-server static --cors -p 3000",
+    "start": "npm run watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,14 +23,14 @@
     "url": "git://github.com/alexmingoia/pux-starter-app.git"
   },
   "author": "Alexander C. Mingoia",
-  "license": "BSD3",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/alexmingoia/pux-starter-app/issues"
   },
   "dependencies": {
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
-    "purescript": "^0.8.4"
+    "purescript": "^0.8.5"
   },
   "devDependencies": {
     "bower": "^1.7.9",
@@ -39,8 +39,7 @@
     "html-webpack-plugin": "^2.15.0",
     "http-server": "^0.9.0",
     "purescript-psa": "^0.3.5",
-    "purescript-webpack-plugin": "^0.3.0",
-    "purs-loader": "^0.6.0",
+    "purs-loader": "^1.0.0-rc.1",
     "rimraf": "^2.5.2",
     "source-map-loader": "^0.1.5",
     "webpack": "^1.12.14",

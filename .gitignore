@@ -1,7 +1,8 @@
-node_modules
-bower_components
-**DS_Store
-output
-dist
+node_modules/
+bower_components/
+output/
+dist/
+static/dist
 .psci_modules
 npm-debug.log
+**DS_Store

@@ -1,44 +1,45 @@
 var path = require('path');
 var webpack = require('webpack');
-var PurescriptWebpackPlugin = require('purescript-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: [ path.join(__dirname, 'support/index.js') ],
   debug: false,
   output: {
-    path: path.resolve('./dist'),
+    path: path.resolve('./static/dist'),
     filename: '[name]-[hash].min.js',
-    publicPath: '/'
+    publicPath: '/dist/'
   },
   module: {
     loaders: [
-      { test: /\.purs$/, loader: 'purs-loader' },
-      { test: /\.js$/, loader: "webpack-strip?strip[]=console.log" },
+      {
+        test: /\.purs$/,
+        loader: 'purs-loader',
+        exclude: /node_modules/,
+        query: {
+          psc: 'psa',
+          bundle: true,
+          warnings: false
+        }
+      }
     ],
   },
   plugins: [
-    new PurescriptWebpackPlugin({
-      src: ['bower_components/purescript-*/src/**/*.purs', 'src/**/*.purs'],
-      ffi: ['bower_components/purescript-*/src/**/*.js',   'src/**/*.js'],
-      bundle: true,
-      psc: 'psa'
-    }),
     new webpack.DefinePlugin({
-      'process.env.WEBPACK_ENV': '"prod"',
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    new webpack.optimize.OccurenceOrderPlugin(true),
-    new webpack.optimize.UglifyJsPlugin({ minimize: true }),
+    new webpack.optimize.OccurrenceOrderPlugin(true),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      compress: {
+        warnings: false
+      }
+    }),
     new HtmlWebpackPlugin({
       template: 'support/index.html',
       inject: 'body',
       filename: 'index.html'
     }),
-    new CopyWebpackPlugin([
-      { from: 'static' }
-    ]),
   ],
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
