@@ -1,6 +1,6 @@
 {
   "name": "pux-starter-app",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "description": "Starter Pux application using webpack with hot-reloading.",
   "main": "support/index.js",
   "keywords": [
