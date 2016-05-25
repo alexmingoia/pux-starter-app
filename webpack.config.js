@@ -69,11 +69,13 @@ if (require.main === module) {
   var compiler = webpack(config);
   var express = require('express');
   var app = express();
+  var history = require('connect-history-api-fallback');
 
   // Use webpack-dev-middleware and webpack-hot-middleware instead of
   // webpack-dev-server, because webpack-hot-middleware provides more reliable
   // HMR behavior, and an in-browser overlay that displays build errors
   app
+    .use(history())
     .use(express.static('./static'))
     .use(require("webpack-dev-middleware")(compiler, {
       publicPath: config.output.publicPath,
