@@ -75,6 +75,7 @@ if (require.main === module) {
   // HMR behavior, and an in-browser overlay that displays build errors
   app
     .use(express.static('./static'))
+    .use(require('connect-history-api-fallback')())
     .use(require("webpack-dev-middleware")(compiler, {
       publicPath: config.output.publicPath,
       stats: {
