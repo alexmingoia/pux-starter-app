@@ -1,6 +1,7 @@
 module App.Layout where
 
 import App.Counter as Counter
+import App.NotFound as NotFound
 import App.Routes (Route(Home, NotFound))
 import Prelude (($), map)
 import Pux.Html (Html, div, h1, p, text)
@@ -30,5 +31,5 @@ view state =
     , p [] [ text "Change src/Layout.purs and watch me hot-reload." ]
     , case state.route of
         Home -> map Child $ Counter.view state.count
-        NotFound -> App.NotFound.view state
+        NotFound -> NotFound.view state
     ]
