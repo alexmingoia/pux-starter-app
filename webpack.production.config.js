@@ -4,7 +4,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: [ path.join(__dirname, 'support/index.js') ],
-  debug: false,
   output: {
     path: path.resolve('./static/dist'),
     filename: '[name]-[hash].min.js',
@@ -29,11 +28,9 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
     new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.optimize.UglifyJsPlugin({
+    new webpack.LoaderOptionsPlugin({
       minimize: true,
-      compress: {
-        warnings: false
-      }
+      debug: false
     }),
     new HtmlWebpackPlugin({
       template: 'support/index.html',
@@ -42,13 +39,15 @@ module.exports = {
     }),
   ],
   resolveLoader: {
-    root: path.join(__dirname, 'node_modules')
+    modules: [
+      path.join(__dirname, 'node_modules')
+    ]
   },
   resolve: {
-    modulesDirectories: [
+    modules: [
       'node_modules',
       'bower_components'
     ],
-    extensions: ['', '.js', '.purs']
+    extensions: ['.js', '.purs']
   }
 };
