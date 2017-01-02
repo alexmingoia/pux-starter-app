@@ -2,7 +2,7 @@ node_modules/
 bower_components/
 output/
 dist/
-static/dist
+static/dist/
 .psci_modules
 npm-debug.log
 **DS_Store

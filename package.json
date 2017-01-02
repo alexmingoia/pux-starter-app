@@ -1,7 +1,7 @@
 {
   "name": "pux-starter-app",
-  "version": "9.0.0",
-  "description": "Starter Pux application using webpack with hot-reloading.",
+  "version": "10.0.0",
+  "description": "Pux starter app with hot-reloading and isomorphic rendering and routing.",
   "main": "support/index.js",
   "keywords": [
     "pux",
@@ -11,10 +11,10 @@
   ],
   "scripts": {
     "postinstall": "bower cache clean && bower install",
-    "clean": "rimraf static/dist && rimraf dist && rimraf output",
-    "build": "npm run clean && webpack --config ./webpack.production.config.js --progress --profile --colors",
-    "watch": "npm run clean && node ./webpack.config.js",
-    "serve": "http-server static --cors -p 3000",
+    "clean": "rimraf static/dist && rimraf dist",
+    "build": "npm run clean && webpack --config ./webpack.config.client.js --progress --profile --colors && webpack --config ./webpack.config.server.js --progress --profile --colors",
+    "watch": "npm run clean && node ./webpack.config.client.js",
+    "serve": "npm run build && node ./dist/server.js",
     "start": "npm run watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -31,19 +31,16 @@
     "bower": "^1.7.9",
     "connect-history-api-fallback": "^1.2.0",
     "express": "^4.13.4",
-    "html-webpack-plugin": "^2.15.0",
-    "http-server": "^0.9.0",
-    "purescript": "^0.10.1",
+    "preact": "^7.1.0",
+    "preact-compat": "^3.9.4",
+    "purescript": "^0.10.7",
     "purescript-psa": "^0.3.9",
-    "purs-loader": "^2.0.0",
-    "react": "^15.0.0",
-    "react-dom": "^15.0.0",
+    "purs-loader": "^2.4.1",
     "rimraf": "^2.5.2",
-    "webpack": "^2.1.0-beta.25"
-  },
-  "devDependencies": {
-    "source-map-loader": "^0.1.5",
-    "webpack-dev-middleware": "^1.8.3",
-    "webpack-hot-middleware": "^2.12.2"
+    "webpack": "^2.3.2",
+    "webpack-dev-middleware": "^1.9.0",
+    "webpack-hot-middleware": "^2.12.2",
+    "webpack-node-externals": "^1.5.4",
+    "xhr2": "^0.1.3"
   }
 }
