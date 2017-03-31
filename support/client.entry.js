@@ -16,5 +16,5 @@ if (module.hot) {
 
   module.hot.accept();
 } else {
-  ClientEntry.main(window.location.pathname)(puxInitialState)()
+  ClientEntry.main(window.location.pathname)(initialState)()
 }
