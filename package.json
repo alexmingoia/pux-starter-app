@@ -1,6 +1,6 @@
 {
   "name": "pux-starter-app",
-  "version": "10.0.0",
+  "version": "10.1.0",
   "description": "Pux starter app with hot-reloading and isomorphic rendering and routing.",
   "main": "support/index.js",
   "keywords": [
