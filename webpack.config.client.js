@@ -1,3 +1,5 @@
+const appConfig = require('./src/App/Config.js').config
+const spawn = require('child_process').spawn
 const path = require('path')
 const webpack = require('webpack')
 const isProd = process.env.NODE_ENV === 'production'
@@ -18,7 +20,7 @@ if (isProd) {
     })
   )
 } else {
-  entries.unshift('webpack-hot-middleware/client?reload=true');
+  entries.unshift('webpack-hot-middleware/client?path=http://localhost:8080/__webpack_hmr&reload=true');
   plugins.push(
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
@@ -27,10 +29,12 @@ if (isProd) {
 
 const config = {
   entry: entries,
+  context: __dirname,
+  target: 'web',
   output: {
     path: path.join(__dirname, 'static', 'dist'),
     filename: 'bundle.js',
-    publicPath: '/dist/'
+    publicPath: appConfig.public_path
   },
   module: {
     loaders: [
@@ -42,7 +46,8 @@ const config = {
           bundle: true,
           bundleOutput: 'static/dist/bundle.js'
         } : {
-          psc: 'psa'
+          psc: 'psa',
+          pscIde: true
         }
       }
     ],
@@ -83,36 +88,36 @@ const config = {
 // If this file is directly run with node, start the development server
 // instead of exporting the webpack config.
 if (require.main === module) {
-  const compiler = webpack(config)
-  const serverCompiler = webpack(require('./webpack.config.server.js'))
+  const compiler = webpack(require('./webpack.config.server.js'))
+  const client = webpack(config);
+  let server = null;
+  const app = require('express')();
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+  app.use(require('webpack-dev-middleware')(client, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+  }));
+  app.use(require('webpack-hot-middleware')(client));
+  app.listen(8080);
 
   console.log('Compiling...')
 
-  serverCompiler.run((err) => {
+  compiler.watch({
+    aggregateTimeout: 300,
+    poll: undefined
+  }, (err, stats) => {
     if (err) return console.error(err)
 
-    const server = require('./dist/server.js')
-
-    server([
-      require('connect-history-api-fallback')(),
-      require("webpack-dev-middleware")(compiler, {
-        publicPath: config.output.publicPath,
-        stats: {
-          assets: false,
-          cached: false,
-          cachedAssets: false,
-          children: false,
-          chunks: false,
-          chunkModules: false,
-          chunkOrigins: false,
-          hash: false,
-          performance: false,
-          timing: false,
-          version: false
-        }
-      }),
-      require("webpack-hot-middleware")(compiler)
-    ])()
+    if (server && !stats.hasErrors()) {
+      server.kill('SIGKILL')
+      server = spawn('node', ['./dist/server.js']);
+    } else {
+      server = spawn('node', ['./dist/server.js']);
+    }
   })
 } else {
   module.exports = config

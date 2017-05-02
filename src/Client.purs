@@ -5,14 +5,16 @@ import App.Routes (match)
 import App.State (State, init)
 import App.View.Layout (view)
 import Control.Applicative (pure)
-import Control.Bind ((=<<), bind)
+import Control.Bind ((=<<), discard, bind)
 import Control.Monad.Eff (Eff)
+import Control.Monad.Except (runExcept)
 import DOM (DOM)
 import DOM.HTML (window)
 import DOM.HTML.Types (HISTORY)
-import Data.Argonaut (Json, decodeJson)
 import Data.Either (either)
 import Data.Function (id, ($))
+import Data.Foreign (Foreign)
+import Data.Foreign.Generic (defaultOptions, genericDecode)
 import Pux (CoreEffects, App, start)
 import Pux.DOM.Events (DOMEvent)
 import Pux.DOM.History (sampleURL)
@@ -45,5 +47,5 @@ main url state = do
   pure app
 
 -- | Used to serialize State from JSON in support/client.entry.js
-readState :: Json -> State
-readState json = either (\_ -> init "/") id $ decodeJson json
+readState :: Foreign -> State
+readState json = either (\_ -> init "/") id $ runExcept (genericDecode (defaultOptions { unwrapSingleConstructors = true }) json)

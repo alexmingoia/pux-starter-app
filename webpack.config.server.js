@@ -10,17 +10,8 @@ const plugins = [
   }),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-  }),
-  new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })
+  })
 ]
-
-if (!isProd) {
-  entries.unshift('webpack/hot/poll?1000')
-  plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
-  )
-}
 
 module.exports = {
   entry: entries,

@@ -1,36 +1,22 @@
 module App.State where
 
 import App.Config (config)
-import App.Routes (Route, match, toURL)
-import Control.Applicative (pure)
-import Control.Bind (bind)
-import Data.Argonaut (class DecodeJson, class EncodeJson, decodeJson, jsonEmptyObject, (.?), (:=), (~>))
-import Data.Function (($))
+import App.Routes (Route, match)
+import Data.Generic.Rep (class Generic)
+import Data.Generic.Rep.Show (genericShow)
+import Data.Newtype (class Newtype)
+import Data.Show (class Show)
 
-data State = State
+newtype State = State
   { title :: String
   , route :: Route
   , loaded :: Boolean
   }
 
-instance decodeJsonState :: DecodeJson State where
-  decodeJson json = do
-    obj <- decodeJson json
-    title <- obj .? "title"
-    url <- obj .? "route"
-    loaded <- obj .? "loaded"
-    pure $ State
-      { title
-      , loaded
-      , route: match url
-      }
+derive instance genericState :: Generic State _
+derive instance newtypeState :: Newtype State _
 
-instance encodeJsonState :: EncodeJson State where
-  encodeJson (State st) =
-       "title" := st.title
-    ~> "route" := toURL st.route
-    ~> "loaded" := st.loaded
-    ~> jsonEmptyObject
+instance showState :: Show State where show = genericShow
 
 init :: String -> State
 init url = State

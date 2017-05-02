@@ -1,6 +1,6 @@
 {
   "name": "pux-starter-app",
-  "version": "10.1.0",
+  "version": "11.0.0",
   "description": "Pux starter app with hot-reloading and isomorphic rendering and routing.",
   "main": "support/index.js",
   "keywords": [
@@ -29,13 +29,12 @@
   },
   "dependencies": {
     "bower": "^1.7.9",
-    "connect-history-api-fallback": "^1.2.0",
     "express": "^4.13.4",
-    "preact": "^7.1.0",
-    "preact-compat": "^3.9.4",
-    "purescript": "^0.10.7",
-    "purescript-psa": "^0.3.9",
-    "purs-loader": "^2.4.1",
+    "preact": "^8.1.0",
+    "preact-compat": "^3.16.0",
+    "purescript": "^0.11.4",
+    "purescript-psa": "^0.5.1",
+    "purs-loader": "^3.0.0",
     "rimraf": "^2.5.2",
     "webpack": "^2.3.2",
     "webpack-dev-middleware": "^1.9.0",
