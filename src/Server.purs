@@ -54,6 +54,7 @@ appHandler = do
     , inputs: [constant (PageView (match request.url))]
     }
 
+  -- | Inject initial state used to bootstrap app in support/client.entry.js
   state <- lift' $ liftAff $ waitState (\(State st) -> st.loaded) app
   let state_json = "window.__puxInitialState = "
                  <> (genericEncodeJSON (defaultOptions { unwrapSingleConstructors = true }) state)
