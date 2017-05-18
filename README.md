@@ -1,8 +1,11 @@
 # pux-starter-app
 
-The [starter app](http://github.com/alexmingoia/pux-starter-app) is a pux
-project configured with isomorphic rendering and routing, hot-reloading, and a
-production server.
+The [starter app](http://github.com/alexmingoia/pux-starter-app) is a skeleton
+Pux project configured with webpack and supporting hot-reload for rapid
+development.
+
+For isomorphic rendering and routing a more complex configuration is available in the
+[`isomorphic`](https://github.com/alexmingoia/pux-starter-app/tree/isomorphic) branch.
 
 ## Installation
 
@@ -15,7 +18,7 @@ npm install
 npm start
 ```
 
-After compiling the app should be available at `http://localhost:3000`.
+After compiling the app should be available at `http://localhost:8080`.
 
 ### Directory structure
 
@@ -25,20 +28,16 @@ After compiling the app should be available at `http://localhost:3000`.
   - `src/App/Events.purs`: Application event type and foldp function.
   - `src/App/Routes.purs`: Routes.
   - `src/App/State.purs`: Application state type and init function.
-  - `src/App/View/HTMLWrapper.purs`: HTML document view.
   - `src/App/View/Homepage.purs`: Home page.
   - `src/App/View/Layout.purs`: App layout.
   - `src/App/View/NotFound.purs`: 404 page.
-  - `src/Server.purs`: Server entry point.
-  - `src/Client.purs`: Client entry point.
+  - `src/Main.purs`: PureScript entry point.
 - `static`: Static files served with application.
 - `support`: Support files for building.
-  - `support/client.entry.js`: Webpack entry point. Handles hot reloading.
-  - `support/server.entry.js`: Webpack entry point. Handles hot reloading.
+  - `support/entry.js`: Webpack entry point. Handles hot reloading.
 - `bower.json`: Bower package configuration.
 - `package.json`: Node package configuration.
-- `webpack.config.client.js`: Webpack client configuration.
-- `webpack.config.server.js`: Webpack server configuration.
+- `webpack.config.js`: Webpack configuration.
 
 ### NPM scripts
 

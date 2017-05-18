@@ -1,20 +1,14 @@
-module Client where
+module Main where
 
+import Prelude
 import App.Events (AppEffects, Event(..), foldp)
 import App.Routes (match)
 import App.State (State, init)
 import App.View.Layout (view)
-import Control.Applicative (pure)
-import Control.Bind ((=<<), discard, bind)
 import Control.Monad.Eff (Eff)
-import Control.Monad.Except (runExcept)
 import DOM (DOM)
 import DOM.HTML (window)
 import DOM.HTML.Types (HISTORY)
-import Data.Either (either)
-import Data.Function (id, ($))
-import Data.Foreign (Foreign)
-import Data.Foreign.Generic (defaultOptions, genericDecode)
 import Pux (CoreEffects, App, start)
 import Pux.DOM.Events (DOMEvent)
 import Pux.DOM.History (sampleURL)
@@ -46,6 +40,5 @@ main url state = do
   -- | Return app to be used for hot reloading logic in support/client.entry.js
   pure app
 
--- | Used to serialize State from JSON in support/client.entry.js
-readState :: Foreign -> State
-readState json = either (\_ -> init "/") id $ runExcept (genericDecode (defaultOptions { unwrapSingleConstructors = true }) json)
+initialState :: State
+initialState = init "/"
