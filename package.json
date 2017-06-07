@@ -27,6 +27,9 @@
   "bugs": {
     "url": "https://github.com/alexmingoia/pux-starter-app/issues"
   },
+  "engines": {
+    "node": "^6.0.0"
+  },
   "dependencies": {
     "bower": "^1.7.9",
     "preact": "^8.1.0",
