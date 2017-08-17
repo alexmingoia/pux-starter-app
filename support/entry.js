@@ -1,7 +1,7 @@
-let ClientEntry = require('../src/Main.purs');
-let app = ClientEntry.main(window.location.pathname)(window.__puxLastState || ClientEntry.initialState)()
+var ClientEntry = require('../src/Main.purs');
+var app = ClientEntry.main(window.location.pathname)(window.__puxLastState || ClientEntry.initialState)()
 
-app.state.subscribe((state) => {
+app.state.subscribe(function (state) {
  window.__puxLastState = state;
 });
 
