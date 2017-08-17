@@ -32,15 +32,15 @@
   },
   "dependencies": {
     "bower": "^1.7.9",
-    "preact": "^8.1.0",
-    "preact-compat": "^3.16.0",
-    "purescript": "^0.11.4",
+    "preact": "^8.2.1",
+    "preact-compat": "^3.17.0",
+    "purescript": "^0.11.6",
     "purescript-psa": "^0.5.1",
-    "purs-loader": "^3.0.0",
+    "purs-loader": "^3.1.0",
     "rimraf": "^2.5.2",
-    "serve": "^5.1.5",
-    "webpack": "^2.3.2",
-    "webpack-dev-server": "^2.4.5",
+    "serve": "^5.2.4",
+    "webpack": "^2.7.0",
+    "webpack-dev-server": "^2.7.1",
     "webpack-node-externals": "^1.5.4",
     "xhr2": "^0.1.3"
   }
